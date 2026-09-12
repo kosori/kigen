@@ -27,36 +27,32 @@
     "dist"
   ],
   "scripts": {
-    "prebuild": "rm -rf dist",
-    "build": "tsup",
-    "build:silent": "tsup --silent",
-    "dev": "pnpx tsx src/index.ts",
-    "dev:node": "pnpm build:silent && pnpm start",
-    "format": "prettier --write src",
-    "format:fix": "prettier --write src",
-    "lint": "eslint src --ext .ts",
-    "lint:fix": "eslint src --ext .ts --fix",
-    "pub:beta": "pnpm build && pnpm publish --no-git-checks --access public --tag beta",
-    "pub:next": "pnpm build && pnpm publish --no-git-checks --access public --tag next",
-    "pub:release": "pnpm build && pnpm publish --access public",
-    "start": "node dist/index.js",
-    "typecheck": "tsc --noEmit"
+    "build": "tsdown",
+    "build:silent": "tsdown --logLevel silent",
+    "dev": "bunx tsx src/index.ts",
+    "dev:node": "bun run build:silent && bun run start",
+    "format": "bunx biome check --write src",
+    "format:fix": "bunx biome check --write src",
+    "lint": "bunx biome check src",
+    "pub:beta": "bun run build && bun publish --access public --tag beta",
+    "pub:next": "bun run build && bun publish --access public --tag next",
+    "pub:release": "bun run build && bun publish --access public",
+    "start": "bun dist/index.js",
+    "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
-    "@clack/core": "^0.3.5",
-    "@clack/prompts": "^0.8.2",
-    "commander": "^12.1.0",
+    "@clack/core": "^1.5.0",
+    "@clack/prompts": "^1.8.0",
+    "commander": "^15.0.0",
     "picocolors": "^1.1.1",
-    "zod": "^3.23.8"
+    "zod": "^4.6.2"
   },
   "devDependencies": {
-    "@ianvs/prettier-plugin-sort-imports": "^4.4.0",
-    "@types/node": "^22.10.1",
-    "@typescript-eslint/eslint-plugin": "^8.17.0",
-    "@typescript-eslint/parser": "^8.17.0",
-    "eslint": "8.57.0",
-    "prettier": "^3.4.2",
-    "tsup": "^8.3.5",
-    "typescript": "^5.7.2"
+    "@biomejs/biome": "^2.5.13",
+    "@types/node": "^22.20.2",
+    "tsdown": "^0.23.0",
+    "tsx": "^4.23.13",
+    "typescript": "^5.9.3",
+    "ultracite": "^7.11.1"
   }
 }
