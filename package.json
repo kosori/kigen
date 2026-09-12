@@ -38,6 +38,7 @@
     "pub:next": "bun run build && bun publish --access public --tag next",
     "pub:release": "bun run build && bun publish --access public",
     "start": "bun dist/index.js",
+    "test": "node --test tests/",
     "typecheck": "bunx tsc --noEmit"
   },
   "dependencies": {
