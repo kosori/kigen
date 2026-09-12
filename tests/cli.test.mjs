@@ -1,7 +1,7 @@
-import { describe, it } from 'node:test';
 import assert from 'node:assert/strict';
 import { execFileSync, spawnSync } from 'node:child_process';
 import path from 'node:path';
+import { describe, it } from 'node:test';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -14,7 +14,10 @@ const srcEntry = path.join(root, 'src', 'index.ts');
  */
 function built(...args) {
 	const last = args.at(-1);
-	const stdin = typeof last === 'object' && last !== null && 'stdin' in last ? args.pop().stdin : undefined;
+	const stdin =
+		typeof last === 'object' && last !== null && 'stdin' in last
+			? args.pop().stdin
+			: undefined;
 	try {
 		const stdout = execFileSync('node', [builtBin, ...args], {
 			cwd: root,
@@ -22,12 +25,18 @@ function built(...args) {
 			input: stdin,
 			stdio: ['pipe', 'pipe', 'pipe'],
 		});
-		return { stdout, stderr: '', status: 0 };
+		return { status: 0, stderr: '', stdout };
 	} catch (error) {
 		return {
-			stdout: typeof error.stdout === 'string' ? error.stdout : String(error.stdout ?? ''),
-			stderr: typeof error.stderr === 'string' ? error.stderr : String(error.stderr ?? ''),
 			status: typeof error.status === 'number' ? error.status : 1,
+			stderr:
+				typeof error.stderr === 'string'
+					? error.stderr
+					: String(error.stderr ?? ''),
+			stdout:
+				typeof error.stdout === 'string'
+					? error.stdout
+					: String(error.stdout ?? ''),
 		};
 	}
 }
@@ -37,16 +46,19 @@ function built(...args) {
  */
 function source(...args) {
 	const last = args.at(-1);
-	const stdin = typeof last === 'object' && last !== null && 'stdin' in last ? args.pop().stdin : undefined;
+	const stdin =
+		typeof last === 'object' && last !== null && 'stdin' in last
+			? args.pop().stdin
+			: undefined;
 	const result = spawnSync('bunx', ['tsx', srcEntry, ...args], {
 		cwd: root,
 		encoding: 'utf8',
 		input: stdin,
 	});
 	return {
-		stdout: result.stdout ?? '',
-		stderr: result.stderr ?? '',
 		status: result.status ?? 1,
+		stderr: result.stderr ?? '',
+		stdout: result.stdout ?? '',
 	};
 }
 
@@ -71,6 +83,10 @@ Options:
   -n, --name <name>  Name of the project
   -h, --help         display help for command
 `;
+
+const projectNamedPattern = /Your project is named/;
+const myAppPattern = /my-app/;
+const myProjectPattern = /my-project/;
 
 describe('help', () => {
 	it('built --help exits 0 with exact baseline', () => {
@@ -110,8 +126,8 @@ describe('Init Command flag', () => {
 	it('built init --name skips the prompt and names the Project Name', () => {
 		const result = built('init', '--name', 'my-app', { stdin: '' });
 		assert.equal(result.status, 0);
-		assert.match(result.stdout, /Your project is named/);
-		assert.match(result.stdout, /my-app/);
+		assert.match(result.stdout, projectNamedPattern);
+		assert.match(result.stdout, myAppPattern);
 	});
 
 	it('source init --name stdout is byte-identical to built init --name stdout', () => {
@@ -126,7 +142,7 @@ describe('Init Command prompt default', () => {
 	it('built init with piped newline applies the my-project default', () => {
 		const result = built('init', { stdin: '\n' });
 		assert.equal(result.status, 0);
-		assert.match(result.stdout, /my-project/);
+		assert.match(result.stdout, myProjectPattern);
 	});
 });
 
