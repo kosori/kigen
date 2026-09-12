@@ -14,7 +14,7 @@ export const init = new Command()
 		try {
 			const options = initOptionsSchema.parse(opts);
 
-			intro(highlight(' CLI Template: init '));
+			intro(highlight(' Kigen: init '));
 
 			const prompts = {
 				...(!options.name && {

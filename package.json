@@ -1,18 +1,18 @@
 {
-  "name": "cli-template",
+  "name": "kigen",
   "version": "1.0.0",
   "description": "Template for a CLI using TypeScript",
   "keywords": [
     "cli",
     "typescript"
   ],
-  "homepage": "https://github.com/codingcodax/cli-template",
+  "homepage": "https://github.com/codingcodax/kigen",
   "bugs": {
-    "url": "https://github.com/codingcodax/cli-template/issues"
+    "url": "https://github.com/codingcodax/kigen/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codingcodax/cli-template.git"
+    "url": "https://github.com/codingcodax/kigen.git"
   },
   "license": "Apache-2.0",
   "author": {
