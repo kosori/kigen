@@ -2,9 +2,10 @@
 import { Command } from 'commander';
 
 import { init } from '~/commands/init/init.js';
+import { handleError } from '~/helpers/handle-error';
 import packageJson from '../package.json';
 
-const main = () => {
+const main = async () => {
 	const program = new Command();
 
 	program
@@ -18,7 +19,11 @@ const main = () => {
 
 	program.addCommand(init);
 
-	program.parse();
+	await program.parseAsync();
 };
 
-main();
+try {
+	await main();
+} catch (error) {
+	handleError(error);
+}
