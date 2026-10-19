@@ -1,18 +1,18 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "display": "Node LTS",
-  "_version": "22.12.0",
+  "_version": "24.0.0",
   "compilerOptions": {
-    "lib": ["es2023", "dom"],
+    "lib": ["es2024"],
     "module": "preserve",
-    "target": "es2022",
+    "target": "es2024",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "moduleResolution": "bundler",
     "outDir": "dist",
     "resolveJsonModule": true,
-    "baseUrl": ".",
+    "types": ["node"],
     "paths": {
       "~/*": ["./src/*"]
     }

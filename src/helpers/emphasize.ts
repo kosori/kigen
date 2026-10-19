@@ -1,3 +1,3 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
-export const emphasize = (str: string) => color.bold(color.italic(str));
+export const emphasize = (str: string) => styleText(['bold', 'italic'], str);

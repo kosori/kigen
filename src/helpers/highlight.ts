@@ -1,3 +1,3 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
 
-export const highlight = (str: string) => color.bgCyan(color.black(str));
+export const highlight = (str: string) => styleText(['bgCyan', 'black'], str);

@@ -1,19 +1,19 @@
-import color from 'picocolors';
+import { styleText } from 'node:util';
+
+const label = () =>
+	styleText(['bgRed', 'bold'], 'Error', { stream: process.stderr });
 
 export const handleError = (error: unknown) => {
 	if (typeof error === 'string') {
-		console.error(color.bgRed(color.bold('Error')), error);
+		console.error(label(), error);
 		process.exit(1);
 	}
 
 	if (error instanceof Error) {
-		console.error(color.bgRed(color.bold('Error')), error.message);
+		console.error(label(), error.message);
 		process.exit(1);
 	}
 
-	console.error(
-		color.bgRed(color.bold('Error')),
-		'Something went wrong. Please try again.'
-	);
+	console.error(label(), 'Something went wrong. Please try again.');
 	process.exit(1);
 };

@@ -16,22 +16,28 @@ export const init = new Command()
 
 			intro(highlight(' Kigen: init '));
 
-			const prompts = {
-				...(!options.name && {
-					name: () =>
-						text({
-							message: 'What is the name of your project?',
-							placeholder: 'my-project',
-						}),
-				}),
-			};
+			const shouldPrompt =
+				!options.name && process.stdin.isTTY && process.stdout.isTTY;
 
-			const prompt = await group(prompts, {
-				onCancel: () => {
-					cancel('Operation cancelled');
-					process.exit(1);
-				},
-			});
+			const prompts = shouldPrompt
+				? {
+						name: () =>
+							text({
+								defaultValue: 'my-project',
+								message: 'What is the name of your project?',
+								placeholder: 'my-project',
+							}),
+					}
+				: undefined;
+
+			const prompt: { name?: string } = prompts
+				? await group(prompts, {
+						onCancel: () => {
+							cancel('Operation cancelled');
+							process.exit(1);
+						},
+					})
+				: { name: undefined };
 
 			const name = options.name ?? prompt.name ?? 'my-project';
 

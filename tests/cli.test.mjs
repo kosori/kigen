@@ -86,7 +86,8 @@ Options:
 
 const projectNamedPattern = /Your project is named/;
 const myAppPattern = /my-app/;
-const myProjectPattern = /my-project/;
+const projectNamePromptPattern = /What is the name of your project\?/;
+const myProjectOutroPattern = /Your project is named my-project/;
 
 describe('help', () => {
 	it('built --help exits 0 with exact baseline', () => {
@@ -142,7 +143,9 @@ describe('Init Command prompt default', () => {
 	it('built init with piped newline applies the my-project default', () => {
 		const result = built('init', { stdin: '\n' });
 		assert.equal(result.status, 0);
-		assert.match(result.stdout, myProjectPattern);
+		assert.equal(result.stderr, '');
+		assert.doesNotMatch(result.stdout, projectNamePromptPattern);
+		assert.match(result.stdout, myProjectOutroPattern);
 	});
 });
 
